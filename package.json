@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/jaycemxy/163-music#readme",
   "dependencies": {
-    "leancloud-storage": "^3.8.1"
+    "leancloud-storage": "^3.8.1",
+    "qiniu-js": "^1.0.22",
+    "plupload": "^2.3.2"
   }
 }
