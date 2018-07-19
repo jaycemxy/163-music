@@ -43,3 +43,35 @@ template: `
 let string = JSON.stringify(this.model.data)
 let object = JSON.parse(string)
 ```
+### 上传加锁
+在上传歌曲时，页面处于灰色加载状态，为了避免用户反复点击上传歌曲的按钮，有两个常用方法：
+
+1、用一个div遮住整个屏幕，在这个项目中给类名为 site-loading 的div元素加上 z-index: 1;
+
+2、当这个div不能挡住用户点击的操作（给类名为 site-loading的元素加上 pointer-events: none;），此时当页面处于加载状态时，用户仍然可以点击歌曲上传的按钮。
+
+解决方法：创建一个变量锁定当前页面正在上传的状态，当这个状态结束，这个锁变为打开状态，用户又可以点击上传按钮
+
+eg：
+在upload-song模块
+```
+let model = {
+    data: {
+        status: 'open'  // 创建一个变量来切换状态
+    }
+}
+
+let controller = {
+    ... ...
+    // 在歌曲上传之前的函数里
+    if(this.model.data.status === 'closed'){
+        return false
+    }else{
+        this.model.data.status = 'closed'
+        return true
+    }
+
+    // 在歌曲上传成功之后的函数里
+    this.model.data.status = 'open'
+}
+```
