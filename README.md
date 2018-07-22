@@ -80,3 +80,32 @@ let controller = {
 - 点击歌曲列表模块，触发select事件，同时激活自己；还监听了 update 事件，如果对应的歌曲项被更新，它会触发重新渲染数据
 - 上传歌曲模块，点击触发new事件，new事件中带有 name、url两个参数
 - 歌曲详细信息表单模块，监听new事件，如果是新上传的歌曲，它会展示一个没有id的数据；监听select事件，当选中已上传的某一首歌，它会展示歌曲对应的信息；当进入编辑状态时，编辑完成后点击保存，它会触发update事件，使得歌曲列表得到异步更新
+
+### 播放页获取歌曲id
+获取歌曲查询参数，该参数第一个字符一般为'?'：window.location.search
+
+去掉参数中的'?'：
+```
+let search = window.location.search
+if(search.indexOf('?') === 0){
+    search = search.substring(1)
+}
+```
+
+查询参数字符串分隔，并将空字符串过滤（空字符串是5个假值中的一个）：
+```
+let array = search.split('&').filter((v=>v))  // v=>v 的作用，如果是真值就保留，假值就过滤
+```
+
+拿到真正的id值，去掉类似a=1，b=2的部分
+```
+for (let i = 0; i < array.length; i++) {
+    let kv = array[i].split('=')
+    let key = kv[0]
+    let value = kv[1]
+    if (key === 'id') {
+        id = value
+        break
+    }
+}
+```
